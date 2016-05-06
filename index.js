@@ -30,9 +30,11 @@
         });
 
         searchReq.on('end', function(item) {
-            // console.log('this is the item: ' + item);
+
             var artist = item.artists.items[0];
             var artistid = item.artists.items[0].id;
+            // console.log(typeof artist);
+            // res.json(artist);
             searchReq.emit('getRelatedArtists', artist);
         })
 
@@ -44,17 +46,16 @@
 
         searchReq.on('getRelatedArtists', function (artist) {
           var relatedRequest = getFromApi('artists/'+artist.id+'/related-artists');
-          console.log(relatedRequest);
-          relatedRequest.on('end', function(item) {
-              console.log(item);
-              res.json(item);
-          })
-          //
+          
+          relatedRequest.on('end', function(related) {
+              console.log(typeof related.artists);
+              res.json(related.artists);
+              // console.log(allRelated);
+          });
+
         })
-
-
-            searchReq.on('error', function(code) {
-                res.sendStatus(code);
-            });
+        searchReq.on('error', function(code) {
+            res.sendStatus(code);
+        });
     });
     app.listen(8080);
