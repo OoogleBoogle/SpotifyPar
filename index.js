@@ -34,16 +34,17 @@
             searchReq.emit('getRelatedArtists', artist);
         })
 
-        searchReq.on('getRelatedArtists', function (artist) {
-          var relatedRequest = getFromApi('artists/' + artist.id + '/related-artists');
-
-          relatedRequest.on('end', function(related) {
-              result = {artist: artist, related: related}
-              console.log(result);
-              res.json(result);
-          });
-
-        })
+        searchReq.on('getRelatedArtists', function(artist) {
+            var relatedRequest = getFromApi('artists/' + artist.id + '/related-artists'); // sets emmitter to relatedRequest
+            // getFromApi 'end' now points here
+            relatedRequest.on('end', function(related) {
+                var result = { // create new object to hold original artist and array of related artists
+                        artist: artist,
+                        related: related
+                    }
+                res.json(result); // send new obj to handlebars. (Had to faff with Handlebars template to make this work)
+            });
+        });
         searchReq.on('error', function(code) {
             res.sendStatus(code);
         });

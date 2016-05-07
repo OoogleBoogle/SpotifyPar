@@ -132,7 +132,7 @@ $(document).ready(function() {
         <script id="artist-template" type="text/x-handlebars-template">
             <div>
                 <h1>
-                    {{#each artist.images}}
+                    {{#each artist.images}} {{! had to change this to make new object work }}
                     {{#if @last }}
                     <img src="{{ url }}">
                     {{/if}}
@@ -140,7 +140,7 @@ $(document).ready(function() {
                     <a href="{{artist.uri}}">{{ artist.name }}</a>
                 </h1>
                 <div class="pure-g main">
-                    {{#each related.artists}}
+                    {{#each related.artists}} {{! had to change this too }}
                     <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2">
                         {{#each images}}
                         {{#if @last }}
