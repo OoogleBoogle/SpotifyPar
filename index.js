@@ -30,27 +30,17 @@
         });
 
         searchReq.on('end', function(item) {
-
             var artist = item.artists.items[0];
-            var artistid = item.artists.items[0].id;
-            // console.log(typeof artist);
-            // res.json(artist);
             searchReq.emit('getRelatedArtists', artist);
         })
 
-        // var relArtist = getFromAPI(blah);
-        //
-        // relArtist.on('end'.....)
-
-
-
         searchReq.on('getRelatedArtists', function (artist) {
-          var relatedRequest = getFromApi('artists/'+artist.id+'/related-artists');
-          
+          var relatedRequest = getFromApi('artists/' + artist.id + '/related-artists');
+
           relatedRequest.on('end', function(related) {
-              console.log(typeof related.artists);
-              res.json(related.artists);
-              // console.log(allRelated);
+              result = {artist: artist, related: related}
+              console.log(result);
+              res.json(result);
           });
 
         })

@@ -109,10 +109,11 @@ Spotify.prototype.search = function(name) {
     ajax.done(this.onSearchDone.bind(this));
 };
 Spotify.prototype.onSearchDone = function(artist) {
+    console.log(artist);
     var result = $(this.artistTemplate(artist));
     this.result.empty().append(result);
     this.result.toggleClass('transparent');
-    // console.log(artist);
+
 };
 $(document).ready(function() {
     var app = new Spotify();
@@ -131,15 +132,15 @@ $(document).ready(function() {
         <script id="artist-template" type="text/x-handlebars-template">
             <div>
                 <h1>
-                    {{#each images}}
+                    {{#each artist.images}}
                     {{#if @last }}
                     <img src="{{ url }}">
                     {{/if}}
                     {{/each}}
-                    <a href="{{uri}}">{{ name }}</a>
+                    <a href="{{artist.uri}}">{{ artist.name }}</a>
                 </h1>
                 <div class="pure-g main">
-                    {{#each related}}
+                    {{#each related.artists}}
                     <div class="pure-u-1 pure-u-md-1-2 pure-u-lg-1-2">
                         {{#each images}}
                         {{#if @last }}
